@@ -1,0 +1,25 @@
+{
+  "name": "@simistream/ws-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@simistream/agent": "*",
+    "@simistream/config": "*",
+    "@simistream/db": "*",
+    "@simistream/types": "*",
+    "dotenv": "^17.2.4",
+    "ioredis": "^5.4.0",
+    "ws": "^8.17.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.15.0",
+    "typescript": "^5.5.0"
+  }
+}

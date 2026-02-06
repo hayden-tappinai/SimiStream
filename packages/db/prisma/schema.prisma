@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Industry {
+  healthcare
+  emergency_services
+  food_hospitality
+  finance
+  entertainment
+  veterinary
+}
+
+enum Profession {
+  icu_nurse
+  paramedic
+  ld_nurse
+  surgical_tech
+  dispatcher
+  firefighter
+  air_traffic_controller
+  line_cook
+  bartender
+  vet_er_tech
+  stock_trader
+  event_producer
+}
+
+enum SessionStatus {
+  waiting
+  active
+  paused
+  completed
+  abandoned
+}
+
+enum EventSeverity {
+  low
+  medium
+  high
+  critical
+}
+
+enum EventType {
+  patient_change
+  new_arrival
+  equipment_failure
+  order_rush
+  complication
+  environmental
+  communication
+  time_pressure
+}
+
+enum ResponseOutcome {
+  optimal
+  acceptable
+  suboptimal
+  critical_error
+}
+
+model User {
+  id                 String      @id @default(uuid())
+  email              String      @unique
+  name               String
+  selectedIndustry   Industry?
+  selectedProfession Profession?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  trainingSessions TrainingSession[]
+
+  @@map("users")
+}
+
+model TrainingSession {
+  id              String        @id @default(uuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  profession      Profession
+  status          SessionStatus @default(waiting)
+  odysseyStreamId String?
+  startedAt       DateTime      @default(now())
+  endedAt         DateTime?
+  finalScore      Float?
+
+  events    ScenarioEvent[]
+  responses TraineeResponse[]
+  score     SessionScore?
+
+  @@index([userId])
+  @@index([status])
+  @@map("training_sessions")
+}
+
+model ScenarioEvent {
+  id                 String        @id @default(uuid())
+  sessionId          String
+  session            TrainingSession @relation(fields: [sessionId], references: [id])
+  sequenceNumber     Int
+  eventType          EventType
+  severity           EventSeverity
+  description        String
+  odysseyPrompt      String
+  injectedAt         DateTime      @default(now())
+  responseDeadlineMs Int?
+  resolved           Boolean       @default(false)
+
+  responses TraineeResponse[]
+
+  @@unique([sessionId, sequenceNumber])
+  @@index([sessionId])
+  @@map("scenario_events")
+}
+
+model TraineeResponse {
+  id             String          @id @default(uuid())
+  eventId        String
+  event          ScenarioEvent   @relation(fields: [eventId], references: [id])
+  sessionId      String
+  session        TrainingSession @relation(fields: [sessionId], references: [id])
+  responseText   String
+  responseAction String
+  outcome        ResponseOutcome
+  scoreImpact    Float
+  feedback       String
+  respondedAt    DateTime        @default(now())
+
+  @@index([eventId])
+  @@index([sessionId])
+  @@map("trainee_responses")
+}
+
+model SessionScore {
+  id                  String          @id @default(uuid())
+  sessionId           String          @unique
+  session             TrainingSession @relation(fields: [sessionId], references: [id])
+  overallScore        Float
+  reactionTimeAvg     Float
+  criticalErrorCount  Int
+  optimalResponseRate Float
+  breakdown           Json
+
+  @@map("session_scores")
+}
