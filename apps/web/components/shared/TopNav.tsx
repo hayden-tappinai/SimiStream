@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { UserMenu } from "./UserMenu";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface TopNavProps {
   professionName?: string;
@@ -33,6 +36,7 @@ export function TopNav({ professionName, isLive }: TopNavProps) {
             ACTIVE
           </Badge>
         )}
+        <ThemeToggle />
         <UserMenu />
       </div>
     </header>
