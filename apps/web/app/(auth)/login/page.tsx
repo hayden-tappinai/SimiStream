@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,6 +42,11 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
+      {/* Floating theme toggle for pages without navigation */}
+      <div className="fixed top-6 right-6 z-50">
+        <ThemeToggle />
+      </div>
+
       <div className="w-full max-w-sm space-y-6 border-2 border-border bg-surface-raised p-8 shadow-brutal">
         <div className="space-y-2 text-center">
           <div className="mx-auto flex h-10 w-10 items-center justify-center border-2 border-border bg-accent font-mono text-sm font-bold text-accent-foreground shadow-brutal-sm">

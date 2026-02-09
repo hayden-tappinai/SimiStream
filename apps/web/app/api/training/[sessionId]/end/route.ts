@@ -39,12 +39,12 @@ export async function POST(
   });
 
   // Calculate aggregate stats
-  const totalScore = responses.reduce((sum, r) => sum + r.scoreImpact, 0);
+  const totalScore = responses.reduce((sum: number, r: any) => sum + r.scoreImpact, 0);
   const criticalErrors = responses.filter(
-    (r) => r.outcome === "critical_error",
+    (r: any) => r.outcome === "critical_error",
   ).length;
   const optimalCount = responses.filter(
-    (r) => r.outcome === "optimal",
+    (r: any) => r.outcome === "optimal",
   ).length;
   const optimalRate =
     responses.length > 0 ? optimalCount / responses.length : 0;
@@ -59,15 +59,15 @@ export async function POST(
   let reactionTimeAvg = 0;
   if (eventsWithResponses.length > 0) {
     const reactionTimes = eventsWithResponses
-      .filter((e) => e.responses.length > 0)
-      .map((e) => {
+      .filter((e: any) => e.responses.length > 0)
+      .map((e: any) => {
         const responseTime = e.responses[0].respondedAt.getTime();
         const eventTime = e.injectedAt.getTime();
         return (responseTime - eventTime) / 1000; // seconds
       });
     reactionTimeAvg =
       reactionTimes.length > 0
-        ? reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length
+        ? reactionTimes.reduce((a: number, b: number) => a + b, 0) / reactionTimes.length
         : 0;
   }
 
