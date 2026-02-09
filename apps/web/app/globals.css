@@ -4,14 +4,15 @@
 
 @layer base {
   :root {
-    --surface: 222 47% 6%;
-    --surface-raised: 222 47% 9%;
-    --surface-overlay: 222 47% 12%;
-    --border: 215 20% 25%;
+    /* Light theme colors */
+    --surface: 0 0% 98%;
+    --surface-raised: 0 0% 100%;
+    --surface-overlay: 0 0% 96%;
+    --border: 215 20% 75%;
     --ring: 239 84% 67%;
-    --foreground: 210 40% 96%;
-    --muted: 215 20% 18%;
-    --muted-foreground: 215 20% 55%;
+    --foreground: 222 47% 11%;
+    --muted: 215 20% 85%;
+    --muted-foreground: 215 20% 45%;
     --accent: 239 84% 67%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84% 60%;
@@ -37,6 +38,29 @@
     --severity-medium: 50 85% 55%;
     --severity-high: 25 90% 55%;
     --severity-critical: 0 85% 55%;
+  }
+
+  .dark {
+    /* Dark theme colors */
+    --surface: 222 47% 6%;
+    --surface-raised: 222 47% 9%;
+    --surface-overlay: 222 47% 12%;
+    --border: 215 20% 25%;
+    --ring: 239 84% 67%;
+    --foreground: 210 40% 96%;
+    --muted: 215 20% 18%;
+    --muted-foreground: 215 20% 55%;
+    --accent: 239 84% 67%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --live: 160 84% 39%;
+
+    /* Industry colors remain the same in dark mode */
+
+    /* Outcome colors remain the same in dark mode */
+
+    /* Severity colors remain the same in dark mode */
   }
 
   * {
